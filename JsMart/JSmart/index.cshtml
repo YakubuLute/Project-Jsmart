@@ -1,0 +1,241 @@
+﻿<!DOCTYPE html>
+<html ng-app="jwype" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Welcome to JSmart | Connect The World</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" type="text/css" href="Themes/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="Themes/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="Themes/main.css" />
+    <link rel="stylesheet" type="text/css" href="Themes/BootSideMenu/css/BootSideMenu.css" />
+    <link rel="stylesheet"                 href="~/fonts/Barlow/Barlow-Thin.ttf" />
+
+    <script src="Themes/bootstrap/js/npm.js"></script>
+
+    <style type="text/css">
+           /*Add a line of code to access google fonts*/
+            @@font-face{
+            font-family:'Barlow-Light';
+            font-style:normal;
+            font-weight:300;
+            src:url(../fonts/Barlow/Barlow-Light.ttf),format('ttf');
+           src:url(../fonts/Barlow/Barlow-Light.ttf),format('truetype');
+           src:url(../fonts/Barlow/Barlow-Light.ttf)
+       }
+           @@font-face{
+            font-family:'OpenSansCondensed-Light';
+            font-style:normal;
+            font-weight:500;
+            src:url(../fonts/Open_Sans_Condensed/OpenSansCondensed-Light.ttf),format('ttf');
+           src:url(../fonts/Open_Sans_Condensed/OpenSansCondensed-Light.ttf),format('truetype');
+           src:url(../fonts/Open_Sans_Condensed/OpenSansCondensed-Light.ttf)
+       }
+        .wrapper {
+            background-color: #99CCFF;
+            border: thick solid #808080;
+            padding: 20px;
+            margin: 20px;
+        }
+
+        .userSide {
+            padding: 5px;
+            margin-bottom: 5px;
+        }
+        </style>
+
+    
+    <!-- Scripts -->
+    <script type="text/javascript" src="Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="Themes/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="Themes/BootSideMenu/js/BootSideMenu.js"></script>
+
+    <script src="/Scripts/jquery-ui/jquery.ui.core.js"></script>
+    <script src="/Scripts/jquery-ui/jquery.ui.widget.js"></script>
+    <script src="/Scripts/jquery-ui/jquery.ui.mouse.js"></script>
+    <script src="/Scripts/jquery-ui/jquery.ui.draggable.js"></script>
+    <script src="/Scripts/jquery-ui/jquery.ui.resizable.js"></script>
+
+    <script type="text/javascript" src="Scripts/jquery.signalR-2.2.2.min.js"></script>
+
+    <script type="text/javascript" src="/signalr/hubs"></script>
+
+    <script type="text/javascript" src="Scripts/angular.min.js"></script>
+    <script type="text/javascript" src="Scripts/angular-route.min.js"></script>
+    <script type="text/javascript" src="Scripts/angular-animate.min.js"></script>
+    <script type="text/javascript" src="Scripts/moment.min.js"></script>
+</head>
+<body ng-controller="mainController"> 
+
+    <!-- Start of Logo -->
+    <div id="logo">
+        <span>Js</span>
+    </div>
+
+    <!-- End of Logo -->
+
+    <!-- Start of Content -->
+    <div class="container">
+
+        <!-- Start of BootSideMenu -->
+        <div id="sideMenu" style="display:none">
+            <div class="userSide">
+                <img src="img/user-avatar.png" alt="User" class="img-thumbnail" />
+                <a href="#" style="text-decoration:none;" class="navbar-link">Me: <span id="usernameSide"></span></a>
+            </div>
+            <!--List online Users-->
+            <div class="sidmenudiv">
+                <fieldset class="list-group">
+                    <legend>
+                        <a href="#" class="list-group-item list-group-item-info">
+                            <span class="glyphicon glyphicon-chevron-down drop pull-left"></span>Users Online <span id="totalOnlineUsers" class="badge">
+                            </span>
+                        </a>
+                    </legend>
+                    <div id="onlineList" class="menulist"></div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>
+                        <a href="#" class="list-group-item list-group-item-info"><span class="glyphicon glyphicon-chevron-down drop pull-left"></span>Available Groups <span id="totalGroups" class="badge"></span></a>
+                    </legend>
+                    <div id="groupList" class="menulist"></div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>
+                        <a href="#" class="list-group-item list-group-item-info"><span class="glyphicon glyphicon-chevron-down drop pull-left"></span>Join a Live Conference <span id="totalConfList" class="badge"></span></a>
+                    </legend>
+                    <div id="confroomList" class="menulist"></div>
+                </fieldset>
+            </div><!--end of side menudiv-->
+        </div><!--end of BootsideMenu -->
+
+        <!-- End of BootSideMenu -->
+
+        <!-- Container for the ChatBox Window -->
+        <div id="chatWindowContainer"></div>
+
+        <div class="row pad-top pad-bottom">
+
+            <!-- Start of Login Box -->
+            <div id="loginBox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <div class="panel-title"><strong style="font-size:1.5em;">Welcome to JSmart Chatting App</strong></div>
+                    </div>
+
+                    <div style="padding-top:30px" class="panel-body">
+                        <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+                        <form id="loginform" class="form-horizontal" role="form">
+                            <fieldset>
+                                <label for="username">Pick A Username</label>
+                            </fieldset>
+                            <div style="margin-bottom: 25px" class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-comment"></i></span>
+                                
+                                    <input type="text" id="username" class="form-control" placeholder="Pick a username" autofocus required>
+                                <h1></h1>
+                            </div>
+
+                            <div style="margin-top:10px" class="form-group">
+                                <!-- Button -->
+                                <div class="col-sm-12 controls">
+                                    <input type="button" id="btnStartChat" class="btn btn-success" value="Enter">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- End of Login Box -->
+
+            <!-- Start of Public Room ChatBox -->
+            <div id="chatBox" style="margin-top:50px;" class="row">
+                <div class="mainbox col-lg-6 col-md-6 col-sm-6" style="float:none;margin:0 auto">
+                    <div class="panelChat panel-primary">
+                        <div class="panel-heading">
+                            <span class="glyphicon glyphicon-comment"></span> Public Room
+                            <div class="btn-group pull-right">
+                                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                    <span class="glyphicon glyphicon-chevron-down"></span>
+                                </button>
+                                <ul class="dropdown-menu slidedown">
+                                    <li class="refresh" onclick="$('#chatBox').removeAttr('remove');"><a href="#"><span class="glyphicon glyphicon-refresh"></span>Refresh</a></li>
+                                    <!--<li class="available"><a href="#"><span class="glyphicon glyphicon-ok-sign"></span>Available</a></li>-->
+                                    <li class="busy" onclick="$('#chatBox').hide();"><a href="#"><span class="glyphicon glyphicon-remove"></span>Busy</a></li>
+                                    <li class="away"><a href="#"><span class="glyphicon glyphicon-time"></span>Away</a></li>
+                                    <li class="divider"></li>
+                                    <li class="offline" onclick="$('#chatBox').remove();"><a href=""><span class="glyphicon glyphicon-off"></span>Leave Room</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="panelChat-body">
+                            <ul id="discussion" class="chatBox"></ul>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="input-group">
+                                <input id="message" type="text" class="form-control input-sm" placeholder="Type something ..." />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-warning btn-sm" id="btn-chat">Send</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End of Public Room ChatBox -->
+
+            <!-- Container for Video Stream -->
+            <div id="videoChatContainer" class="row" style="margin-top:50px;">
+                <!-- Video Chat Here -->
+                <div class="video-container"></div>
+            </div>
+        </div>
+
+        <!-- Get user info before login -->
+        <input type="hidden" id="hidId" />
+        <input type="hidden" id="hidUsername" />
+
+        <!-- Admin Input Password Model -->
+        <div class="modal fade" id="adminLoginModal" tabindex="-1" role="dialog" aria-labelledby="loginAdmin" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">Enter Admin Room</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="adminLoginForm" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-xs-3 control-label">Password</label>
+                                <div class="col-xs-5">
+                                    <input type="password" id="adminPwd" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-5 col-xs-offset-3">
+                                    <button type="button" class="btn btn-primary" onclick="EnterAdminRoom()">Enter</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End of Admin Input Password Model -->
+
+    </div>
+    
+    <!-- Bistri JS -->
+<script src="Scripts/bistri.conference.min.js"></script>
+
+    <!-- Load JSMart JS -->
+    <script type="text/javascript" src="Scripts/Jsmart.js"></script>
+</body>
+</html>
